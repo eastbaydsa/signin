@@ -3,7 +3,9 @@
   <%= @results.length %>
   <%= "member".pluralize(@results.length) %>
   matching
-  "<%= @search_params[:email] || @search_params[:last_name] %>"
+  <%= @search_params[:email] ?
+      "email: #{@search_params[:email]}" :
+      "last name: #{@search_params[:last_name]}" %>
 </p>
 
 <% @results.each do |result| %>
@@ -13,16 +15,41 @@
         <img src="<%= result['profile_image_url_ssl'] %>" alt="">
       </div>
       <div class="col">
-        <h2><%= "#{result['first_name']} #{result['last_name']}" %></h2>
+        <h2><%= "#{result['first_name']} #{result['last_name']}" %>
+        </h2>
+        <% if result['tags'].include? signed_in_tag %>
+          <span class="badge badge-pill badge-info">SIGNED IN</span>
+        <% end %>
+
         <p>
           <%= result['email'] %>
         </p>
       </div>
       <div class="col-sm-auto">
-        <form class="" action="index.html" method="post">
-          <input class="btn btn-success" type="submit" value="Sign In">
-        </form>
+        <% if result['tags'].include? signed_in_tag %>
+          <form action="/signin"
+              method="post"
+              onSubmit="return confirm(
+                'Are you sure? <%= result['first_name'] %> <%= result['last_name'] %> has already signed in.'
+              )">
+            <input type="hidden" name="id" value="<%= result['id'] %>">
+            <input class="btn btn-lg" type="submit" value="Sign In">
+          </form>
+        <% else %>
+          <form class="" action="/signin" method="post">
+            <input type="hidden" name="id" value="<%= result['id'] %>">
+            <input class="btn btn-success btn-lg" type="submit" value="Sign In">
+          </form>
+        <% end %>
       </div>
     </div>
   </section>
 <% end %>
+
+<hr />
+
+<div class="text-center">
+  <p>Couldn't find who you're looking for?</p>
+
+  <a href="/new-member" class='btn btn-lg btn-warning'>Register new member</a>
+</div>

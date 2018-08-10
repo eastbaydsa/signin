@@ -8,6 +8,16 @@
     <div class="container">
       <h1 class="display-4 mt-4 mb-4">EBDSA Meeting Sign In</h1>
 
+      <% if flash[:success] %>
+        <div class="alert alert-success">
+          <%= flash[:success] %>
+        </div>
+      <% elsif flash[:error] %>
+        <div class="alert alert-danger">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
+
       <%= yield %>
     </div>
   </body>

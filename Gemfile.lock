@@ -32,6 +32,8 @@ GEM
       rack-protection (= 2.0.3)
       sinatra (= 2.0.3)
       tilt (>= 1.3, < 3)
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
     tzinfo (1.2.5)
@@ -45,6 +47,7 @@ DEPENDENCIES
   nationbuilder-rb
   sinatra
   sinatra-contrib
+  sinatra-flash
 
 BUNDLED WITH
    1.16.1
