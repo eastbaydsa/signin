@@ -6,8 +6,16 @@
     <div class="col">
       <h2><%= "#{result['first_name']} #{result['last_name']}" %>
       </h2>
+      <% if result['tags'].include? 'provisional_member' %>
+        <span class="badge badge-pill badge-info">PROVISIONAL MEMBER</span>
+      <% elsif result['tags'].include? 'national_member' %>
+        <span class="badge badge-pill badge-success">MEMBER</span>
+      <% else %>
+      <span class="badge badge-pill badge-warning">Not a member</span>
+      <% end %>
+
       <% if result['tags'].include? signed_in_tag %>
-        <span class="badge badge-pill badge-info">SIGNED IN</span>
+        <span class="badge badge-pill badge-success">SIGNED IN</span>
       <% end %>
 
       <p>
@@ -23,6 +31,15 @@
             )">
           <input type="hidden" name="id" value="<%= result['id'] %>">
           <input class="btn btn-lg" type="submit" value="Sign In">
+        </form>
+      <% elsif !result['tags'].include? 'national_member' %>
+        <form action="/signin"
+            method="post"
+            onSubmit="return confirm(
+              'Are you sure? <%= result['first_name'] %> <%= result['last_name'] %> is not a member, and will be recorded as such after signing in.'
+            )">
+          <input type="hidden" name="id" value="<%= result['id'] %>">
+          <input class="btn btn-warning btn-lg" type="submit" value="Sign In">
         </form>
       <% else %>
         <form class="" action="/signin" method="post">

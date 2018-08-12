@@ -50,12 +50,17 @@ post '/signin' do
       id: params[:id]
     )['person']
 
-    nation_builder_client.call(
+    tags = [signed_in_tag]
+    if (!person['tags'].include? 'national_member')
+      tags += ['national_member', 'provisional_member']
+    end
+
+    resp = nation_builder_client.call(
       :people,
       :tag_person,
       id: params[:id],
       tagging: {
-        tag: signed_in_tag
+        tag: tags
       }
     )
 
