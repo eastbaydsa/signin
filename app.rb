@@ -97,8 +97,19 @@ post '/register' do
     else
       error_message += ': they may already be registerd in NationBuilder'
     end
-
     flash.now[:error] = error_message
+
+    search_params = {}
+    search_params[:email] = params[:email] if params[:email].present?
+    search_params[:last_name] = params[:last_name] if params[:last_name].present?
+    unless (search_params.blank?)
+      @possible = nation_builder_client.call(
+          :people,
+          :search,
+          search_params
+        )['results']
+    end
+
     erb :new_member
   end
 end

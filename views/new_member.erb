@@ -25,3 +25,11 @@
     <input class="btn btn-lg btn-primary" type="submit" value="Sign in New Member">
   </div>
 </form>
+
+<% if @possible %>
+  <hr>
+  <p>Does one of these people look like they match?</p>
+  <% @possible.each do |result| %>
+    <%= erb :_result, locals: {result: result} %>
+  <% end %>
+<% end %>
