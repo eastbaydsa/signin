@@ -1,0 +1,27 @@
+<h1>Register New Member</h1>
+
+<form class="" action="/register" method="post" novalidate>
+  <div class="form-group">
+    <label for="first_name">First Name</label>
+    <input class="form-control form-control-lg" type="text" name="first_name" value="<%= params[:first_name] %>" placeholder="Eugene">
+  </div>
+
+  <div class="form-group">
+    <label for="last_name">Last Name</label>
+    <input class="form-control form-control-lg" type="text" name="last_name" value="<%= params[:last_name] %>" placeholder="Debs">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input class="form-control form-control-lg" type="email" name="email" value="<%= params[:email] %>" placeholder="karl@marx.com" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Phone</label>
+    <input class="form-control form-control-lg" type="tel" name="phone" value="<%= params[:phone] %>" placeholder="(510) 867-5309">
+  </div>
+
+  <div class="mt-4 pt-4">
+    <input class="btn btn-lg btn-primary" type="submit" value="Sign in New Member">
+  </div>
+</form>

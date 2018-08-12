@@ -67,6 +67,38 @@ post '/signin' do
   redirect '/'
 end
 
-get '/new-member' do
+get '/register' do
   erb :new_member
+end
+
+post '/register' do
+  begin
+    person = nation_builder_client.call(
+      :people,
+      :create,
+      {
+        person: {
+          email: params[:email],
+          first_name: params[:first_name],
+          last_name: params[:last_name],
+          phone: params[:phone],
+          tags: [signed_in_tag, 'national_member', 'provisional_member']
+        }
+      }
+    )['person']
+
+    flash[:success] = "#{person['full_name']} has signed in. Thanks!"
+    redirect '/'
+  rescue NationBuilder::ClientError => e
+    error_message = 'There was an error registering this member'
+    response = JSON.parse(e.message)
+    if response['validation_errors']
+      error_message += ": #{response['validation_errors'].join(', ').sub('base ', '')}"
+    else
+      error_message += ': they may already be registerd in NationBuilder'
+    end
+
+    flash.now[:error] = error_message
+    erb :new_member
+  end
 end
