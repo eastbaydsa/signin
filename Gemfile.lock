@@ -16,6 +16,7 @@ GEM
     mustermann (1.0.2)
     nationbuilder-rb (1.6.1)
       httpclient (~> 2.7)
+    puma (3.12.0)
     rack (2.0.5)
     rack-protection (2.0.3)
       rack
@@ -45,6 +46,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   nationbuilder-rb
+  puma
   sinatra
   sinatra-contrib
   sinatra-flash
