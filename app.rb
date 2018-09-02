@@ -29,7 +29,7 @@ get '/' do
 end
 
 post '/lookup' do
-  @search_params = {}
+  @search_params = {limit: 100}
   @search_params[:email] = params[:email] if params[:email].present?
   @search_params[:last_name] = params[:last_name] if params[:last_name].present?
 
@@ -104,7 +104,7 @@ post '/register' do
     end
     flash.now[:error] = error_message
 
-    search_params = {}
+    search_params = {limit: 100}
     search_params[:email] = params[:email] if params[:email].present?
     search_params[:last_name] = params[:last_name] if params[:last_name].present?
     unless (search_params.blank?)
