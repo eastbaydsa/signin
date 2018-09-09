@@ -74,6 +74,11 @@ post '/lookup' do
     @search_params
   )['results']
 
+  @results = @results.sort_by { |r| [
+    r['tags'].include?('national_member') ? 0 : 1,
+    r['email'].present? ? 0 : 1
+  ]}
+
   erb :results
 end
 
