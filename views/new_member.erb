@@ -17,8 +17,13 @@
   </div>
 
   <div class="form-group">
-    <label for="email">Phone</label>
+    <label for="phone">Phone</label>
     <input class="form-control form-control-lg" type="tel" name="phone" value="<%= params[:phone] %>" placeholder="(510) 867-5309">
+  </div>
+
+  <div class="form-group">
+    <label for="note">Additional Note (freeform)</label>
+    <textarea class="form-control form-control-lg" name="note" value="<%= params[:note] %>"></textarea>
   </div>
 
   <div class="mt-4 pt-4">

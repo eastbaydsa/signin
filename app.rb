@@ -126,6 +126,7 @@ post '/register' do
           first_name: params[:first_name],
           last_name: params[:last_name],
           phone: params[:phone],
+          note: params[:note],
           tags: [signed_in_tag, 'national_member', 'provisional_member']
         }
       }
