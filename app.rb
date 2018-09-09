@@ -7,6 +7,10 @@ require 'nationbuilder'
 configure { set :server, :puma }
 enable :sessions
 
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  username == ENV['USERNAME'] and password == ENV['PASSWORD']
+end
+
 helpers do
   def nation_builder_client
     unless @nation_builder_client
