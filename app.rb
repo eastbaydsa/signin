@@ -14,7 +14,6 @@ end
 helpers do
   def nation_builder_client
     unless @nation_builder_client
-      p 'building nb client'
       @nation_builder_client = NationBuilder::Client.new(
         ENV['NATION_NAME'],
         ENV['NATION_API_TOKEN']
