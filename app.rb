@@ -7,14 +7,45 @@ require 'nationbuilder'
 configure { set :server, :puma }
 enable :sessions
 
-nation_builder_client = NationBuilder::Client.new(
-  ENV['NATION_NAME'],
-  ENV['NATION_API_TOKEN']
-)
-
 helpers do
+  def nation_builder_client
+    unless @nation_builder_client
+      p 'building nb client'
+      @nation_builder_client = NationBuilder::Client.new(
+        ENV['NATION_NAME'],
+        ENV['NATION_API_TOKEN']
+      )
+    end
+    @nation_builder_client
+  end
+
   def signed_in_tag
-    'signed_in_meeting_beta'
+    ENV['SIGN_IN_TAG']
+  end
+
+  def signin_total
+    unless @total
+      @total = 0
+
+      members_result = nation_builder_client.call(
+        :people_tags,
+        :people,
+        {tag: signed_in_tag, limit: 100}
+      )
+      members_page = NationBuilder::Paginator.new(nation_builder_client, members_result)
+
+      loop do
+        @total += members_page.body['results'].count
+        if members_page.next?
+          members_page = members_page.next
+        else
+          break
+        end
+      end
+
+    end
+
+    @total
   end
 end
 
@@ -40,6 +71,10 @@ post '/lookup' do
   )['results']
 
   erb :results
+end
+
+get '/quorum' do
+  erb :quorum
 end
 
 post '/signin' do
